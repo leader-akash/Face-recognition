@@ -5,6 +5,8 @@ import tkinter
 import csv
 import tkinter as tk
 from tkinter import *
+import subprocess
+import platform
 
 def subjectchoose(text_to_speech):
     def calculate_attendance():
@@ -13,10 +15,10 @@ def subjectchoose(text_to_speech):
             t='Please enter the subject name.'
             text_to_speech(t)
         os.chdir(
-            f"C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance\\{Subject}"
+            f"/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance/{Subject}"
         )
         filenames = glob(
-            f"C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance\\{Subject}\\{Subject}*.csv"
+            f"/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance/{Subject}\\{Subject}*.csv"
         )
         df = [pd.read_csv(f) for f in filenames]
         newdf = df[0]
@@ -32,7 +34,7 @@ def subjectchoose(text_to_speech):
         root = tkinter.Tk()
         root.title("Attendance of "+Subject)
         root.configure(background="black")
-        cs = f"C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance\\{Subject}\\attendance.csv"
+        cs = f"/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance/{Subject}\\attendance.csv"
         with open(cs) as file:
             reader = csv.reader(file)
             r = 0
@@ -78,16 +80,34 @@ def subjectchoose(text_to_speech):
         font=("arial", 25),
     )
     titl.place(x=100, y=12)
-
+    
+    def open_file(file_path):
+        system = platform.system()
+        if system == "Linux":
+            subprocess.Popen(["xdg-open", file_path])
+        else:
+            print("Unsupported platform:", system)
+        
     def Attf():
         sub = tx.get()
         if sub == "":
-            t="Please enter the subject name!!!"
+            t = "Please enter the subject name!!!"
             text_to_speech(t)
         else:
-            os.startfile(
-            f"C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance\\{sub}"
-            )
+            attendance_dir = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance/"
+            file_path = os.path.join(attendance_dir, sub)
+            print("File path:", file_path) 
+            open_file(file_path)
+  
+    # def Attf():
+    #     sub = tx.get()
+    #     if sub == "":
+    #         t="Please enter the subject name!!!"
+    #         text_to_speech(t)
+    #     else:
+    #         os.startfile(
+    #         f"/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance/{sub}"
+    #         )
 
 
     attf = tk.Button(

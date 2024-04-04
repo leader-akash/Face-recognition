@@ -8,7 +8,7 @@ import time
 
 
 # take Image of user
-def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen,text_to_speech):
+def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen, text_to_speech):
     if (l1 == "") and (l2==""):
         t='Please Enter the your Enrollment Number and Name.'
         text_to_speech(t)
@@ -27,7 +27,7 @@ def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen,te
             sampleNum = 0
             directory = Enrollment + "_" + Name
             path = os.path.join(trainimage_path, directory)
-            os.mkdir(path)
+            os.makedirs(path, exist_ok=True)  # Modified line
             while True:
                 ret, img = cam.read()
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

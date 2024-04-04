@@ -10,17 +10,15 @@ import datetime
 import time
 import tkinter.ttk as tkk
 import tkinter.font as font
+import platform
+import subprocess
 
-haarcasecade_path = "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\haarcascade_frontalface_default.xml"
-trainimagelabel_path = (
-    "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\TrainingImageLabel\\Trainner.yml"
-)
-trainimage_path = "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\TrainingImage"
-studentdetail_path = (
-    "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\StudentDetails\\studentdetails.csv"
-)
-attendance_path = "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance"
-# for choose subject and fill attendance
+haarcasecade_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/haarcascade_frontalface_default.xml"
+trainimagelabel_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/TrainingImageLabel/Trainner.yml"
+trainimage_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/TrainingImage"
+studentdetail_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/StudentDetails/studentdetails.csv"
+attendance_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance"
+
 def subjectChoose(text_to_speech):
     def FillAttendance():
         sub = tx.get()
@@ -37,7 +35,7 @@ def subjectChoose(text_to_speech):
                 try:
                     recognizer.read(trainimagelabel_path)
                 except:
-                    e = "Model not found,please train model"
+                    e = "Model not found, please train model"
                     Notifica.configure(
                         text=e,
                         bg="black",
@@ -78,7 +76,6 @@ def subjectChoose(text_to_speech):
                             aa = df.loc[df["Enrollment"] == Id]["Name"].values
                             global tt
                             tt = str(Id) + "-" + aa
-                            # En='1604501160'+str(Id)
                             attendance.loc[len(attendance)] = [
                                 Id,
                                 aa,
@@ -107,13 +104,10 @@ def subjectChoose(text_to_speech):
 
                 ts = time.time()
                 print(aa)
-                # attendance["date"] = date
-                # attendance["Attendance"] = "P"
                 attendance[date] = 1
                 date = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
                 timeStamp = datetime.datetime.fromtimestamp(ts).strftime("%H:%M:%S")
                 Hour, Minute, Second = timeStamp.split(":")
-                # fileName = "Attendance/" + Subject + ".csv"
                 path = os.path.join(attendance_path, Subject)
                 fileName = (
                     f"{path}/"
@@ -185,20 +179,13 @@ def subjectChoose(text_to_speech):
                 text_to_speech(f)
                 cv2.destroyAllWindows()
 
-    ###windo is frame for subject chooser
     subject = Tk()
-    # windo.iconbitmap("AMS.ico")
     subject.title("Subject...")
     subject.geometry("580x320")
     subject.resizable(0, 0)
     subject.configure(background="black")
-    # subject_logo = Image.open("UI_Image/0004.png")
-    # subject_logo = subject_logo.resize((50, 47), Image.ANTIALIAS)
-    # subject_logo1 = ImageTk.PhotoImage(subject_logo)
     titl = tk.Label(subject, bg="black", relief=RIDGE, bd=10, font=("arial", 30))
     titl.pack(fill=X)
-    # l1 = tk.Label(subject, image=subject_logo1, bg="black",)
-    # l1.place(x=100, y=10)
     titl = tk.Label(
         subject,
         text="Enter the Subject Name",
@@ -217,15 +204,22 @@ def subjectChoose(text_to_speech):
         font=("times", 15, "bold"),
     )
 
+    def open_file(file_path):
+        system = platform.system()
+        if system == "Linux":
+            subprocess.Popen(["xdg-open", file_path])
+        else:
+            print("Unsupported platform:", system)
+
     def Attf():
         sub = tx.get()
         if sub == "":
             t = "Please enter the subject name!!!"
             text_to_speech(t)
         else:
-            os.startfile(
-                f"C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance\\{sub}"
-            )
+            file_path = f"/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance/{sub}"
+            print("File pathsdsad:", file_path) 
+            open_file(file_path)
 
     attf = tk.Button(
         subject,

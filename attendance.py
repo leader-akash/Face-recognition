@@ -29,16 +29,11 @@ def text_to_speech(user_text):
     engine.runAndWait()
 
 
-haarcasecade_path = "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\haarcascade_frontalface_default.xml"
-trainimagelabel_path = (
-    "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\TrainingImageLabel\\Trainner.yml"
-)
-trainimage_path = "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\TrainingImage"
-studentdetail_path = (
-    "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\StudentDetails\\studentdetails.csv"
-)
-attendance_path = "C:\\Users\\patel\\OneDrive\\Documents\\E\\FBAS\\Attendance"
-
+haarcasecade_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/haarcascade_frontalface_default.xml"
+trainimagelabel_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/TrainingImageLabel/Trainner.yml"
+trainimage_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/TrainingImage"
+studentdetail_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/StudentDetails/studentdetails.csv"
+attendance_path = "/home/dml-akash/akash-learning/face/Attendance-Management-system-using-face-recognition/Attendance"
 
 window = Tk()
 window.title("Face recognizer")
@@ -90,7 +85,7 @@ def testVal(inStr, acttyp):
 
 
 logo = Image.open("UI_Image/0001.png")
-logo = logo.resize((50, 47), Image.ANTIALIAS)
+logo = logo.resize((50, 47))  # Corrected attribute
 logo1 = ImageTk.PhotoImage(logo)
 titl = tk.Label(window, bg="black", relief=RIDGE, bd=10, font=("arial", 35))
 titl.pack(fill=X)
